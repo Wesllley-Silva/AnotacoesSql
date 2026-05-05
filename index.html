@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Cheat Sheet - Wesley</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>Minha Colinha de SQL Server</h1>
+            <p>Guia de consulta rápida para o dia a dia</p>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <section class="card">
+            <h2><span class="icon">⚙️</span> Configurações e Atalhos</h2>
+            <div class="content">
+                <ul>
+                    <li><strong>Nome do Servidor:</strong> No CMD, digite <code>hostname</code>.</li>
+                    <li><strong>Nova Consulta:</strong> <kbd>Ctrl</kbd> + <kbd>N</kbd>.</li>
+                    <li><strong>Comentários:</strong> Use <code>--</code> para uma linha ou <code>/* texto */</code> para blocos.</li>
+                    <li><strong>Salvar:</strong> Arquivo > Salvar (Sempre conecte ao banco após reabrir).</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2><span class="icon">💾</span> Como Importar Banco (.bak)</h2>
+            <div class="content">
+                <ol>
+                    <li>Botão direito em <strong>Databases</strong> > <strong>Restore Database</strong>.</li>
+                    <li>Selecione <strong>Device</strong> > Clique nos <code>...</code> > <strong>Add</strong>.</li>
+                    <li>Escolha o arquivo <code>.bak</code> e dê OK até concluir.</li>
+                    <li>Atualize a pasta para ver as tabelas em <strong>Tables</strong>.</li>
+                </ol>
+            </div>
+        </section>
+
+        <section class="card highlight">
+            <h2><span class="icon">🔍</span> Consultas de Seleção (DQL)</h2>
+            <div class="content">
+                <p>O <code>SELECT</code> define quais colunas retornar, e o <code>FROM</code> qual tabela.</p>
+                
+                <div class="code-block">
+                    <p class="comment">-- Selecionar tudo (boa prática: pular linhas)</p>
+                    <pre><code><span>SELECT</span> * <span>FROM</span> DimProduct;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <p class="comment">-- Selecionar colunas específicas e valores únicos</p>
+                    <pre><code><span>SELECT DISTINCT</span> ColorName, UnitPrice 
+<span>FROM</span> DimProduct;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <p class="comment">-- Limitar linhas (Top e Percent)</p>
+                    <pre><code><span>SELECT TOP</span> (100) * <span>FROM</span> DimProduct;
+<span>SELECT TOP</span> (10) <span>PERCENT</span> * <span>FROM</span> DimProduct;</code></pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="card suggestion">
+            <h2><span class="icon">🚀</span> Próximos Passos (Essenciais)</h2>
+            <div class="content">
+                <p>Estes são os comandos que completam sua base inicial:</p>
+                
+                <div class="code-block">
+                    <p class="comment">-- WHERE: Filtrar dados</p>
+                    <pre><code><span>SELECT</span> * <span>FROM</span> DimProduct 
+<span>WHERE</span> ColorName = 'Blue' <span>AND</span> UnitPrice > 100;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <p class="comment">-- ORDER BY: Ordenar (ASC ou DESC)</p>
+                    <pre><code><span>SELECT</span> * <span>FROM</span> DimProduct 
+<span>ORDER BY</span> UnitPrice <span>DESC</span>;</code></pre>
+                </div>
+
+                <div class="code-block">
+                    <p class="comment">-- Funções de Agregação</p>
+                    <pre><code><span>SELECT</span> 
+    <span>COUNT</span>(*) <span>AS</span> TotalProdutos,
+    <span>AVG</span>(UnitPrice) <span>AS</span> PrecoMedio,
+    <span>SUM</span>(UnitPrice) <span>AS</span> SomaTotal
+<span>FROM</span> DimProduct;</code></pre>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Desenvolvido para estudos de SQL Server 2025</p>
+    </footer>
+
+</body>
+</html>
