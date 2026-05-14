@@ -4,10 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Guia Completo SQL Server</title>
-  
-  <!-- ESTA LINHA CONECTA O CSS AO HTML -->
+  <!-- O segredo está aqui: esta linha substitui todo aquele bloco de estilo -->
   <link rel="stylesheet" href="style.css">
-  
 </head>
 <body>
 
@@ -26,13 +24,93 @@
 </nav>
 
 <div class="container">
-  <!-- O restante do seu conteúdo permanece exatamente igual -->
-  <section id="importacao">
-    <h2>Importando uma Base de Dados</h2>
-    <!-- ... -->
-  </section>
-  
-  <!-- ... todos os outros sections ... -->
+
+<section id="importacao">
+  <h2>Importando uma Base de Dados</h2>
+  <p>Para adicionar um banco de dados no SQL Server Management Studio (SSMS):</p>
+  <ol>
+    <li>Clique com o botão direito em <strong>Bancos de Dados</strong>.</li>
+    <li>Selecione <strong>Restaurar Banco de Dados</strong>.</li>
+    <li>Escolha a opção <strong>Dispositivo</strong>.</li>
+    <li>Clique em <strong>Adicionar</strong>.</li>
+    <li>Selecione o arquivo do banco.</li>
+    <li>Clique em <strong>OK</strong> até finalizar.</li>
+    <li>Aguarde a mensagem: <strong>Restaurado com êxito</strong>.</li>
+  </ol>
+  <div class="destaque">
+    Após restaurar o banco, ele aparecerá na lista de bancos de dados.
+  </div>
+  <h3>Visualizando tabelas</h3>
+  <p>Clique no símbolo <strong>+</strong> do banco → Tabelas.</p>
+  <h3>Visualizando dados da tabela</h3>
+  <p>Botão direito na tabela → <strong>Selecionar 1000 linhas superiores</strong>.</p>
+  <h3>Descobrindo o nome do servidor</h3>
+  <pre>hostname</pre>
+  <p>Execute no CMD para descobrir o nome do computador.</p>
+  <h3>Nova janela de consulta</h3>
+  <ul>
+    <li>Botão direito no banco → Nova Consulta</li>
+    <li>Ou use o atalho: <code>CTRL + N</code></li>
+  </ul>
+</section>
+
+<section id="select">
+  <h2>Fundamentos do SELECT</h2>
+  <h3>SELECT e FROM</h3>
+  <p>O comando <code>SELECT</code> serve para selecionar dados.</p>
+  <p>O comando <code>FROM</code> informa de qual tabela os dados serão buscados.</p>
+  <pre>SELECT * FROM DimProduct</pre>
+  <h3>Usando SELECT *</h3>
+  <p>O asterisco (*) traz todas as colunas da tabela.</p>
+  <pre>SELECT * FROM DimCustomer</pre>
+  <h3>Selecionando colunas específicas</h3>
+  <pre>SELECT FirstName, EmailAddress, BirthDate FROM DimCustomer</pre>
+  <div class="destaque">
+    Boa prática: evite usar SELECT * em sistemas grandes.
+    Busque apenas as colunas necessárias.
+  </div>
+</section>
+
+<section id="filtros">
+  <h2>Filtros e Ordenação</h2>
+  <h3>ORDER BY</h3>
+  <p>Usado para ordenar resultados.</p>
+  <table>
+    <tr><th>Comando</th><th>Função</th></tr>
+    <tr><td>ASC</td><td>Ordem crescente</td></tr>
+    <tr><td>DESC</td><td>Ordem decrescente</td></tr>
+  </table>
+  <pre>SELECT DISTINCT ProductKey FROM FactSales ORDER BY ProductKey DESC</pre>
+</section>
+
+<section id="funcoes">
+  <h2>Funções de Agregação</h2>
+  <h3>SUM</h3>
+  <p>Soma os valores de uma coluna.</p>
+  <pre>SELECT SUM(SalesQuantity) AS Qtd, SUM(ReturnQuantity) AS Retorno FROM FactSales</pre>
+  <h3>COUNT</h3>
+  <pre>SELECT COUNT(*) FROM DimProduct</pre>
+</section>
+
+<section id="groupby">
+  <h2>GROUP BY e HAVING</h2>
+  <h3>GROUP BY</h3>
+  <pre>SELECT Gender, COUNT(*) AS Total FROM DimEmployee GROUP BY Gender</pre>
+  <h3>Diferença entre WHERE e HAVING</h3>
+  <table>
+    <tr><th>WHERE</th><th>HAVING</th></tr>
+    <tr><td>Filtra antes do GROUP BY</td><td>Filtra depois do GROUP BY</td></tr>
+  </table>
+</section>
+
+<section id="boaspraticas">
+  <h2>Boas Práticas em SQL</h2>
+  <ul>
+    <li>Use indentação para melhorar a leitura.</li>
+    <li>Organize cláusulas na ordem correta:</li>
+  </ul>
+  <pre>SELECT, FROM, WHERE, GROUP BY, HAVING, ORDER BY</pre>
+</section>
 
 </div>
 
