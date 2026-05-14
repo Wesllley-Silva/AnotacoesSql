@@ -1,246 +1,934 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Guia de Consulta SQL - Fundamentos ao Avançado</title>
-    <style>
-        @page {
-            size: A4;
-            margin: 10mm;
-            background-color: #f4f7f6;
-        }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.5;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f7f6;
-        }
-        .header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 20px;
-            border-radius: 0 0 10px 10px;
-        }
-        .container {
-            padding: 0 15px;
-        }
-        .section {
-            background: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            page-break-inside: avoid;
-        }
-        h1 { margin: 0; font-size: 24pt; }
-        h2 { color: #2980b9; border-bottom: 2px solid #2980b9; padding-bottom: 5px; margin-top: 0; font-size: 16pt; }
-        h3 { color: #16a085; font-size: 13pt; margin-bottom: 10px; }
-        p { margin: 8px 0; font-size: 10pt; }
-        code {
-            background-color: #f8f8f8;
-            border: 1px solid #ddd;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #d35400;
-        }
-        .sql-block {
-            background-color: #272822;
-            color: #f8f8f2;
-            padding: 15px;
-            border-radius: 5px;
-            font-family: 'Consolas', 'Monaco', monospace;
-            font-size: 9pt;
-            white-space: pre-wrap;
-            margin: 10px 0;
-            border-left: 5px solid #66d9ef;
-        }
-        .important {
-            background-color: #fff3cd;
-            border-left: 5px solid #ffc107;
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 9pt;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 10px 0;
-            font-size: 9pt;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th { background-color: #ecf0f1; }
-        .footer {
-            text-align: center;
-            font-size: 8pt;
-            color: #7f8c8d;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia Completo SQL Server</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+
+    header {
+      background: linear-gradient(90deg, #2563eb, #1e40af);
+      padding: 30px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 40px;
+    }
+
+    header p {
+      font-size: 18px;
+      margin-top: 10px;
+    }
+
+    nav {
+      background: #111827;
+      padding: 15px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: #93c5fd;
+      margin-right: 20px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .container {
+      padding: 30px;
+      max-width: 1300px;
+      margin: auto;
+    }
+
+    section {
+      background: #1e293b;
+      margin-bottom: 30px;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    h2 {
+      color: #60a5fa;
+      border-bottom: 2px solid #334155;
+      padding-bottom: 10px;
+    }
+
+    h3 {
+      color: #93c5fd;
+      margin-top: 25px;
+    }
+
+    code {
+      background: #0f172a;
+      color: #22c55e;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 15px;
+    }
+
+    pre {
+      background: #020617;
+      color: #22c55e;
+      padding: 15px;
+      border-radius: 10px;
+      overflow-x: auto;
+      border-left: 5px solid #2563eb;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    table, th, td {
+      border: 1px solid #334155;
+    }
+
+    th {
+      background: #1d4ed8;
+      color: white;
+      padding: 10px;
+    }
+
+    td {
+      padding: 10px;
+      background: #0f172a;
+    }
+
+    .destaque {
+      background: #172554;
+      padding: 15px;
+      border-left: 5px solid #3b82f6;
+      margin: 15px 0;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #111827;
+      color: #94a3b8;
+    }
+  </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Guia de Consulta SQL</h1>
-        <p>Fundamentos, Filtros, Agregações e Agrupamentos</p>
-    </div>
 
-    <div class="container">
-        <!-- FUNDAMENTOS -->
-        <div class="section">
-            <h2>1. Fundamentos e Importação</h2>
-            <p><strong>Para que serve:</strong> O SQL (Structured Query Language) é a linguagem padrão para interagir com bancos de dados relacionais.</p>
-            
-            <h3>Importação no SQL Server (SSMS)</h3>
-            <ul>
-                <li>Botão direito em <strong>Databases</strong> > <strong>Restore Database</strong>.</li>
-                <li>Selecione <strong>Device</strong> e localize o arquivo <code>.bak</code>.</li>
-                <li>Acompanhe o progresso até a mensagem de sucesso.</li>
-            </ul>
+<header>
+  <h1>Guia Completo SQL Server</h1>
+  <p>Fundamentos, exemplos práticos e consultas SQL organizadas para estudo</p>
+</header>
 
-            <h3>Conexão e Visualização</h3>
-            <p>Para descobrir o nome do servidor, digite <code>hostname</code> no CMD. Para abrir uma nova aba de comandos: <code>Ctrl + N</code>.</p>
-        </div>
+<nav>
+  <a href="#importacao">Importação</a>
+  <a href="#select">SELECT</a>
+  <a href="#filtros">Filtros</a>
+  <a href="#funcoes">Funções</a>
+  <a href="#groupby">GROUP BY</a>
+  <a href="#boaspraticas">Boas práticas</a>
+</nav>
 
-        <!-- SELECT -->
-        <div class="section">
-            <h2>2. Seleção de Dados (SELECT)</h2>
-            <p><strong>SELECT:</strong> Define quais colunas retornar. <strong>FROM:</strong> Define a tabela de origem.</p>
-            
-            <div class="sql-block">
--- Selecionar todas as colunas
-SELECT * FROM DimProduct;
+<div class="container">
 
--- Selecionar colunas específicas (Melhor Prática)
-SELECT 
-    ProductName, 
-    BrandName, 
-    UnitPrice 
-FROM DimProduct;
-            </div>
+<section id="importacao">
+  <h2>Importando uma Base de Dados</h2>
 
-            <h3>DISTINCT, TOP e AS</h3>
-            <ul>
-                <li><strong>DISTINCT:</strong> Remove duplicatas, trazendo valores únicos.</li>
-                <li><strong>TOP (n):</strong> Limita a quantidade de linhas retornadas.</li>
-                <li><strong>AS (Alias):</strong> Renomeia temporariamente uma coluna ou tabela.</li>
-            </ul>
-            <div class="sql-block">
--- Selecionar os 10% produtos com preços distintos e renomear coluna
-SELECT TOP 10 PERCENT DISTINCT 
-    ColorName AS Cores_Disponiveis 
-FROM DimProduct;
-            </div>
-        </div>
+  <p>Para adicionar um banco de dados no SQL Server Management Studio (SSMS):</p>
 
-        <!-- FILTROS -->
-        <div class="section">
-            <h2>3. Filtros e Ordenação (WHERE & ORDER BY)</h2>
-            <p><strong>WHERE:</strong> Filtra as linhas com base em condições. <strong>ORDER BY:</strong> Ordena o resultado (ASC ou DESC).</p>
-            
-            <div class="sql-block">
--- Filtro com números, textos e ordenação
-SELECT ProductName, UnitPrice 
-FROM DimProduct 
-WHERE UnitPrice >= 1000 AND ColorName = 'Black'
-ORDER BY UnitPrice DESC;
+  <ol>
+    <li>Clique com o botão direito em <strong>Bancos de Dados</strong>.</li>
+    <li>Selecione <strong>Restaurar Banco de Dados</strong>.</li>
+    <li>Escolha a opção <strong>Dispositivo</strong>.</li>
+    <li>Clique em <strong>Adicionar</strong>.</li>
+    <li>Selecione o arquivo do banco.</li>
+    <li>Clique em <strong>OK</strong> até finalizar.</li>
+    <li>Aguarde a mensagem: <strong>Restaurado com êxito</strong>.</li>
+  </ol>
 
--- Filtro de Datas (Formato 'AAAA-MM-DD')
-SELECT FirstName, BirthDate 
-FROM DimCustomer 
-WHERE BirthDate > '1970-12-31';
-            </div>
+  <div class="destaque">
+    Após restaurar o banco, ele aparecerá na lista de bancos de dados.
+  </div>
 
-            <h3>Operadores Especiais</h3>
-            <ul>
-                <li><strong>IN:</strong> Verifica se um valor está em uma lista.</li>
-                <li><strong>BETWEEN:</strong> Filtra um intervalo (inclusive).</li>
-                <li><strong>LIKE:</strong> Busca padrões (<code>%</code> representa qualquer texto).</li>
-                <li><strong>IS NULL / IS NOT NULL:</strong> Verifica campos vazios.</li>
-            </ul>
-            <div class="sql-block">
--- Exemplo LIKE e BETWEEN
-SELECT * FROM DimProduct 
-WHERE ProductName LIKE '%Home%' 
-  AND UnitPrice BETWEEN 50 AND 100;
+  <h3>Visualizando tabelas</h3>
 
--- Exemplo IN e IS NULL
-SELECT * FROM DimStore 
-WHERE Status IN ('On', 'Pending') 
-  AND CloseDate IS NULL;
-            </div>
-        </div>
+  <p>Clique no símbolo <strong>+</strong> do banco → Tabelas.</p>
 
-        <!-- AGREGAÇÃO -->
-        <div class="section">
-            <h2>4. Funções de Agregação</h2>
-            <p>Servem para realizar cálculos sobre um conjunto de valores e retornar um único valor.</p>
-            <table>
-                <tr>
-                    <th>Função</th>
-                    <th>Descrição</th>
-                </tr>
-                <tr>
-                    <td><code>COUNT()</code></td>
-                    <td>Conta o número de linhas ou valores não nulos.</td>
-                </tr>
-                <tr>
-                    <td><code>SUM()</code></td>
-                    <td>Soma os valores de uma coluna numérica.</td>
-                </tr>
-                <tr>
-                    <td><code>AVG()</code></td>
-                    <td>Calcula a média aritmética.</td>
-                </tr>
-                <tr>
-                    <td><code>MAX() / MIN()</code></td>
-                    <td>Retorna o valor máximo ou mínimo.</td>
-                </tr>
-            </table>
+  <h3>Visualizando dados da tabela</h3>
 
-            <div class="sql-block">
--- Resumo de vendas
-SELECT 
-    COUNT(*) AS TotalVendas,
-    SUM(SalesQuantity) AS QtdTotal,
-    AVG(UnitPrice) AS PrecoMedio,
-    MAX(UnitPrice) AS ProdutoMaisCaro
-FROM FactSales;
-            </div>
-        </div>
+  <p>Botão direito na tabela → <strong>Selecionar 1000 linhas superiores</strong>.</p>
 
-        <!-- AGRUPAMENTO -->
-        <div class="section">
-            <h2>5. Agrupamentos (GROUP BY & HAVING)</h2>
-            <p><strong>GROUP BY:</strong> Agrupa linhas que têm os mesmos valores em colunas específicas para aplicar funções de agregação.</p>
-            <p><strong>HAVING:</strong> É o "WHERE" dos grupos. Filtra o resultado <strong>após</strong> o agrupamento.</p>
+  <h3>Descobrindo o nome do servidor</h3>
 
-            <div class="sql-block">
--- Quantidade de funcionários por gênero (Apenas grupos com mais de 100)
-SELECT 
-    Gender, 
-    COUNT(*) AS Total 
-FROM DimEmployee 
-WHERE DepartmentName = 'Finance' -- Filtra linhas antes de agrupar
+  <pre>
+hostname
+  </pre>
+
+  <p>Execute no CMD para descobrir o nome do computador.</p>
+
+  <h3>Nova janela de consulta</h3>
+
+  <ul>
+    <li>Botão direito no banco → Nova Consulta</li>
+    <li>Ou use o atalho: <code>CTRL + N</code></li>
+  </ul>
+</section>
+
+<section id="select">
+  <h2>Fundamentos do SELECT</h2>
+
+  <h3>SELECT e FROM</h3>
+
+  <p>O comando <code>SELECT</code> serve para selecionar dados.</p>
+  <p>O comando <code>FROM</code> informa de qual tabela os dados serão buscados.</p>
+
+  <pre>
+SELECT *
+FROM DimProduct
+  </pre>
+
+  <h3>Usando SELECT *</h3>
+
+  <p>O asterisco (*) traz todas as colunas da tabela.</p>
+
+  <pre>
+SELECT *
+FROM DimCustomer
+  </pre>
+
+  <h3>Selecionando colunas específicas</h3>
+
+  <pre>
+SELECT FirstName, EmailAddress, BirthDate
+FROM DimCustomer
+  </pre>
+
+  <div class="destaque">
+    Boa prática: evite usar SELECT * em sistemas grandes.
+    Busque apenas as colunas necessárias.
+  </div>
+
+  <h3>Usando AS para renomear colunas</h3>
+
+  <p>O comando <code>AS</code> cria apelidos para colunas.</p>
+
+  <pre>
+SELECT
+    FirstName AS Nome,
+    BirthDate AS DataNascimento,
+    EmailAddress AS Email
+FROM DimCustomer
+  </pre>
+
+  <h3>SELECT DISTINCT</h3>
+
+  <p>Retorna apenas valores únicos.</p>
+
+  <pre>
+SELECT DISTINCT ColorName
+FROM DimProduct
+  </pre>
+
+  <h3>SELECT TOP</h3>
+
+  <p>Limita a quantidade de linhas retornadas.</p>
+
+  <pre>
+SELECT TOP (10) *
+FROM DimProduct
+  </pre>
+
+  <h3>TOP PERCENT</h3>
+
+  <p>Traz uma porcentagem das linhas.</p>
+
+  <pre>
+SELECT TOP (20) PERCENT *
+FROM DimCustomer
+  </pre>
+
+  <h3>Comentários no SQL</h3>
+
+  <pre>
+-- Isso é um comentário
+SELECT * FROM DimProduct
+  </pre>
+
+  <h3>Indentação</h3>
+
+  <p>Indentar significa organizar o código para melhorar a leitura.</p>
+
+  <pre>
+SELECT
+    ProductName,
+    UnitPrice,
+    ColorName
+FROM
+    DimProduct
+WHERE
+    UnitPrice > 100
+  </pre>
+</section>
+
+<section id="filtros">
+  <h2>Filtros e Ordenação</h2>
+
+  <h3>ORDER BY</h3>
+
+  <p>Usado para ordenar resultados.</p>
+
+  <table>
+    <tr>
+      <th>Comando</th>
+      <th>Função</th>
+    </tr>
+    <tr>
+      <td>ASC</td>
+      <td>Ordem crescente</td>
+    </tr>
+    <tr>
+      <td>DESC</td>
+      <td>Ordem decrescente</td>
+    </tr>
+  </table>
+
+  <pre>
+SELECT DISTINCT ProductKey
+FROM FactSales
+ORDER BY ProductKey DESC
+  </pre>
+
+  <div class="destaque">
+    O ORDER BY sempre fica no final da consulta.
+  </div>
+
+  <h3>WHERE</h3>
+
+  <p>Usado para filtrar registros.</p>
+
+  <pre>
+SELECT ProductName, UnitPrice
+FROM DimProduct
+WHERE UnitPrice >= 1000
+  </pre>
+
+  <h3>Filtro de texto</h3>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE ColorName = 'Black'
+  </pre>
+
+  <h3>Filtro de data</h3>
+
+  <pre>
+SELECT FirstName, BirthDate
+FROM DimCustomer
+WHERE BirthDate > '1970-12-31'
+ORDER BY BirthDate
+  </pre>
+
+  <h3>AND</h3>
+
+  <p>Todas as condições devem ser verdadeiras.</p>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE ColorName = 'Black'
+AND BrandName = 'Contoso'
+  </pre>
+
+  <h3>OR</h3>
+
+  <p>Pelo menos uma condição deve ser verdadeira.</p>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE ColorName = 'Black'
+OR BrandName = 'Fabrikam'
+  </pre>
+
+  <h3>NOT</h3>
+
+  <p>Inverte a condição.</p>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE NOT ColorName = 'Black'
+  </pre>
+
+  <h3>IN</h3>
+
+  <p>Substitui vários OR.</p>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE BrandName IN ('Contoso', 'Litware', 'Fabrikam')
+  </pre>
+
+  <h3>LIKE</h3>
+
+  <p>Usado para procurar textos parecidos.</p>
+
+  <table>
+    <tr>
+      <th>Exemplo</th>
+      <th>Significado</th>
+    </tr>
+    <tr>
+      <td>%texto%</td>
+      <td>Contém texto</td>
+    </tr>
+    <tr>
+      <td>texto%</td>
+      <td>Começa com</td>
+    </tr>
+    <tr>
+      <td>%texto</td>
+      <td>Termina com</td>
+    </tr>
+  </table>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE ProductName LIKE '%2G%'
+  </pre>
+
+  <h3>BETWEEN</h3>
+
+  <p>Filtra intervalos.</p>
+
+  <pre>
+SELECT ProductName, UnitPrice
+FROM DimProduct
+WHERE UnitPrice BETWEEN 50 AND 100
+  </pre>
+
+  <h3>NOT BETWEEN</h3>
+
+  <pre>
+SELECT ProductName, UnitPrice
+FROM DimProduct
+WHERE UnitPrice NOT BETWEEN 50 AND 100
+  </pre>
+
+  <h3>IS NULL</h3>
+
+  <p>Busca valores nulos.</p>
+
+  <pre>
+SELECT *
+FROM DimCustomer
+WHERE CompanyName IS NULL
+  </pre>
+
+  <h3>IS NOT NULL</h3>
+
+  <pre>
+SELECT *
+FROM DimStore
+WHERE CloseDate IS NOT NULL
+  </pre>
+</section>
+
+<section id="funcoes">
+  <h2>Funções de Agregação</h2>
+
+  <p>As funções de agregação resumem dados.</p>
+
+  <h3>SUM</h3>
+
+  <p>Soma os valores de uma coluna.</p>
+
+  <pre>
+SELECT
+    SUM(SalesQuantity) AS QuantidadeVendida,
+    SUM(ReturnQuantity) AS QuantidadeRetorno
+FROM FactSales
+  </pre>
+
+  <h3>COUNT</h3>
+
+  <p>Conta registros.</p>
+
+  <pre>
+SELECT COUNT(*)
+FROM DimProduct
+  </pre>
+
+  <p>Contando apenas uma coluna:</p>
+
+  <pre>
+SELECT COUNT(ProductDescription)
+FROM DimProduct
+  </pre>
+
+  <div class="destaque">
+    COUNT(coluna) não conta valores nulos.
+  </div>
+
+  <h3>COUNT DISTINCT</h3>
+
+  <p>Conta valores únicos.</p>
+
+  <pre>
+SELECT COUNT(DISTINCT ColorName)
+FROM DimProduct
+  </pre>
+
+  <h3>MAX</h3>
+
+  <p>Retorna o maior valor.</p>
+
+  <pre>
+SELECT MAX(UnitPrice)
+FROM DimProduct
+  </pre>
+
+  <h3>MIN</h3>
+
+  <p>Retorna o menor valor.</p>
+
+  <pre>
+SELECT MIN(UnitPrice)
+FROM DimProduct
+  </pre>
+
+  <h3>AVG</h3>
+
+  <p>Calcula a média.</p>
+
+  <pre>
+SELECT AVG(UnitPrice)
+FROM DimProduct
+  </pre>
+</section>
+
+<section id="groupby">
+  <h2>GROUP BY e HAVING</h2>
+
+  <h3>GROUP BY</h3>
+
+  <p>O GROUP BY agrupa registros iguais.</p>
+
+  <pre>
+SELECT
+    Gender,
+    COUNT(*) AS Total
+FROM DimEmployee
 GROUP BY Gender
-HAVING COUNT(*) > 100;           -- Filtra o resultado do grupo
-            </div>
+  </pre>
 
-            <div class="important">
-                <strong>Diferença Crucial:</strong> O <code>WHERE</code> filtra dados antes do cálculo. O <code>HAVING</code> filtra os resultados já calculados pelo <code>GROUP BY</code>.
-            </div>
-        </div>
+  <h3>GROUP BY + ORDER BY</h3>
 
-        <div class="footer">
-            Guia de Estudos SQL - Material de Consulta Rápida
-        </div>
-    </div>
+  <pre>
+SELECT
+    BrandName,
+    COUNT(*) AS Quantidade
+FROM DimProduct
+GROUP BY BrandName
+ORDER BY Quantidade DESC
+  </pre>
+
+  <h3>GROUP BY + WHERE</h3>
+
+  <p>O WHERE filtra antes do agrupamento.</p>
+
+  <pre>
+SELECT
+    ColorName,
+    COUNT(*) AS Total
+FROM DimProduct
+WHERE BrandName = 'Contoso'
+GROUP BY ColorName
+  </pre>
+
+  <h3>HAVING</h3>
+
+  <p>O HAVING filtra depois do agrupamento.</p>
+
+  <pre>
+SELECT
+    BrandName,
+    COUNT(*) AS Quantidade
+FROM DimProduct
+GROUP BY BrandName
+HAVING COUNT(*) > 100
+  </pre>
+
+  <h3>Diferença entre WHERE e HAVING</h3>
+
+  <table>
+    <tr>
+      <th>WHERE</th>
+      <th>HAVING</th>
+    </tr>
+    <tr>
+      <td>Filtra linhas antes do GROUP BY</td>
+      <td>Filtra grupos depois do GROUP BY</td>
+    </tr>
+    <tr>
+      <td>Não usa funções agregadas</td>
+      <td>Usa funções agregadas</td>
+    </tr>
+  </table>
+
+  <h3>Exemplo prático</h3>
+
+  <pre>
+SELECT
+    BrandName,
+    AVG(UnitPrice) AS MediaPreco
+FROM DimProduct
+WHERE UnitPrice > 100
+GROUP BY BrandName
+HAVING AVG(UnitPrice) > 500
+ORDER BY MediaPreco DESC
+  </pre>
+</section>
+
+<section id="boaspraticas">
+  <h2>Boas Práticas em SQL</h2>
+
+  <ul>
+    <li>Use indentação para melhorar a leitura.</li>
+    <li>Evite SELECT * em ambientes profissionais.</li>
+    <li>Use aliases com AS para deixar consultas claras.</li>
+    <li>Comente consultas importantes usando --.</li>
+    <li>Organize cláusulas na ordem correta:</li>
+  </ul>
+
+  <pre>
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+  </pre>
+
+  <h3>Exemplo profissional</h3>
+
+  <pre>
+-- Produtos acima de 1000 reais
+SELECT
+    ProductName AS Produto,
+    BrandName AS Marca,
+    UnitPrice AS Preco
+FROM
+    DimProduct
+WHERE
+    UnitPrice >= 1000
+    AND ColorName = 'Black'
+ORDER BY
+    UnitPrice DESC
+  </pre>
+
+  <div class="destaque">
+    Quanto mais organizado estiver seu SQL, mais fácil será manutenção e análise.
+  </div>
+</section>
+
+<section>
+  <h2>Resumo Rápido dos Principais Comandos</h2>
+
+  <table>
+    <tr>
+      <th>Comando</th>
+      <th>Função</th>
+    </tr>
+    <tr>
+      <td>SELECT</td>
+      <td>Seleciona dados</td>
+    </tr>
+    <tr>
+      <td>FROM</td>
+      <td>Indica a tabela</td>
+    </tr>
+    <tr>
+      <td>WHERE</td>
+      <td>Filtra dados</td>
+    </tr>
+    <tr>
+      <td>ORDER BY</td>
+      <td>Ordena resultados</td>
+    </tr>
+    <tr>
+      <td>GROUP BY</td>
+      <td>Agrupa dados</td>
+    </tr>
+    <tr>
+      <td>HAVING</td>
+      <td>Filtra agrupamentos</td>
+    </tr>
+    <tr>
+      <td>COUNT</td>
+      <td>Conta registros</td>
+    </tr>
+    <tr>
+      <td>SUM</td>
+      <td>Soma valores</td>
+    </tr>
+    <tr>
+      <td>AVG</td>
+      <td>Calcula média</td>
+    </tr>
+    <tr>
+      <td>MAX</td>
+      <td>Maior valor</td>
+    </tr>
+    <tr>
+      <td>MIN</td>
+      <td>Menor valor</td>
+    </tr>
+  </table>
+</section>
+
+<section>
+  <h2>Mais Exemplos Práticos de SQL</h2>
+
+  <h3>SELECT com cálculos</h3>
+
+  <p>Também podemos fazer cálculos diretamente nas consultas SQL.</p>
+
+  <pre>
+SELECT
+    ProductName,
+    UnitPrice,
+    UnitPrice * 2 AS PrecoDobrado
+FROM DimProduct
+  </pre>
+
+  <p>Nesse exemplo o SQL cria uma nova coluna calculando o dobro do preço.</p>
+
+  <h3>ORDER BY com múltiplas colunas</h3>
+
+  <p>Podemos ordenar por mais de uma coluna.</p>
+
+  <pre>
+SELECT
+    ProductName,
+    BrandName,
+    UnitPrice
+FROM DimProduct
+ORDER BY BrandName ASC, UnitPrice DESC
+  </pre>
+
+  <p>Primeiro ele organiza pela marca e depois pelo preço.</p>
+
+  <h3>Usando parênteses no WHERE</h3>
+
+  <p>Os parênteses ajudam a definir prioridade nas condições.</p>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE
+(
+    BrandName = 'Contoso'
+    OR BrandName = 'Fabrikam'
+)
+AND UnitPrice > 100
+  </pre>
+
+  <p>Sem os parênteses o resultado pode ser diferente.</p>
+
+  <h3>LIKE avançado</h3>
+
+  <p>Buscando produtos que começam com TV:</p>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE ProductName LIKE 'TV%'
+  </pre>
+
+  <p>Buscando produtos que terminam com HD:</p>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE ProductName LIKE '%HD'
+  </pre>
+
+  <h3>COUNT com GROUP BY</h3>
+
+  <p>Conta quantos produtos existem por marca.</p>
+
+  <pre>
+SELECT
+    BrandName,
+    COUNT(*) AS QuantidadeProdutos
+FROM DimProduct
+GROUP BY BrandName
+ORDER BY QuantidadeProdutos DESC
+  </pre>
+
+  <h3>SUM com GROUP BY</h3>
+
+  <p>Soma valores agrupados.</p>
+
+  <pre>
+SELECT
+    channelkey,
+    SUM(SalesAmount) AS TotalVendas
+FROM FactSales
+GROUP BY channelkey
+  </pre>
+
+  <h3>AVG com GROUP BY</h3>
+
+  <p>Calcula média por grupo.</p>
+
+  <pre>
+SELECT
+    BrandName,
+    AVG(UnitPrice) AS MediaPreco
+FROM DimProduct
+GROUP BY BrandName
+ORDER BY MediaPreco DESC
+  </pre>
+
+  <h3>MAX e MIN juntos</h3>
+
+  <pre>
+SELECT
+    MAX(UnitPrice) AS MaiorPreco,
+    MIN(UnitPrice) AS MenorPreco
+FROM DimProduct
+  </pre>
+
+  <h3>IS NULL e IS NOT NULL na prática</h3>
+
+  <p>Descobrindo lojas fechadas:</p>
+
+  <pre>
+SELECT StoreName, CloseDate
+FROM DimStore
+WHERE CloseDate IS NOT NULL
+  </pre>
+
+  <p>Descobrindo lojas abertas:</p>
+
+  <pre>
+SELECT StoreName
+FROM DimStore
+WHERE CloseDate IS NULL
+  </pre>
+
+  <h3>IN substituindo vários OR</h3>
+
+  <pre>
+SELECT *
+FROM DimProduct
+WHERE ColorName IN ('Black', 'Silver', 'Red')
+  </pre>
+
+  <p>Isso evita escrever vários OR.</p>
+
+  <h3>Exemplo profissional completo</h3>
+
+  <pre>
+-- Produtos caros da Contoso
+SELECT
+    ProductKey AS ID,
+    ProductName AS Produto,
+    BrandName AS Marca,
+    ColorName AS Cor,
+    UnitPrice AS Preco
+FROM
+    DimProduct
+WHERE
+    BrandName = 'Contoso'
+    AND UnitPrice >= 1000
+    AND ColorName IN ('Black', 'Silver')
+ORDER BY
+    UnitPrice DESC
+  </pre>
+
+  <h3>Erros comuns em SQL</h3>
+
+  <table>
+    <tr>
+      <th>Erro</th>
+      <th>Problema</th>
+      <th>Forma correta</th>
+    </tr>
+    <tr>
+      <td>WHERE nome = João</td>
+      <td>Texto sem aspas</td>
+      <td>WHERE nome = 'João'</td>
+    </tr>
+    <tr>
+      <td>WHERE data = 2020-01-01</td>
+      <td>Data sem aspas</td>
+      <td>WHERE data = '2020-01-01'</td>
+    </tr>
+    <tr>
+      <td>= NULL</td>
+      <td>NULL não usa =</td>
+      <td>IS NULL</td>
+    </tr>
+    <tr>
+      <td>SELECT FROM tabela</td>
+      <td>Sem colunas</td>
+      <td>SELECT * FROM tabela</td>
+    </tr>
+  </table>
+
+  <h3>Ordem correta dos comandos SQL</h3>
+
+  <pre>
+SELECT
+FROM
+WHERE
+GROUP BY
+HAVING
+ORDER BY
+  </pre>
+
+  <p>Cada comando possui uma função específica dentro da consulta.</p>
+
+  <h3>Dicas importantes para iniciantes</h3>
+
+  <ul>
+    <li>Pratique consultas todos os dias.</li>
+    <li>Tente entender o resultado antes de executar.</li>
+    <li>Use comentários para organizar consultas grandes.</li>
+    <li>Evite SELECT * em tabelas muito grandes.</li>
+    <li>Use aliases para deixar relatórios mais profissionais.</li>
+    <li>Aprenda primeiro SELECT, WHERE e ORDER BY antes de avançar.</li>
+    <li>GROUP BY é muito usado em relatórios e dashboards.</li>
+  </ul>
+
+</section>
+
+</div>
+
+<footer>
+  <p>Guia SQL Server desenvolvido para estudos e consultas rápidas</p>
+</footer>
+
 </body>
 </html>
